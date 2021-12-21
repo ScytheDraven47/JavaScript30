@@ -37,6 +37,19 @@
 		<img src="https://source.unsplash.com/7bwQXzbF6KE/800x500" />
 
 		<style>
+			:root {
+				--clr-base: #ffc600;
+				--spacing: 0px;
+				--blur: 0px;
+			}
+
+			img {
+				box-sizing: border-box;
+				padding: var(--spacing);
+				background-color: var(--clr-base);
+				filter: blur(var(--blur));
+			}
+
 			/* misc styles, nothing to do with CSS variables */
 
 			body {

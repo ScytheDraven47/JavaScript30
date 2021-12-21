@@ -13,9 +13,10 @@
 				id="spacing"
 				type="range"
 				name="spacing"
+				step="10"
 				min="10"
-				max="200"
-				value="10"
+				max="50"
+				value="5"
 				data-sizing="px"
 			/>
 
@@ -38,7 +39,7 @@
 
 		<style>
 			:root {
-				--clr-base: #ffc600;
+				--base: #ffc600;
 				--spacing: 0px;
 				--blur: 0px;
 			}
@@ -46,7 +47,7 @@
 			img {
 				box-sizing: border-box;
 				padding: var(--spacing);
-				background-color: var(--clr-base);
+				background-color: var(--base);
 				filter: blur(var(--blur));
 			}
 
@@ -70,6 +71,27 @@
 			}
 		</style>
 
-		<script></script>
+		<script>
+			const root = document.documentElement
+			const elSpacing = document.getElementById('spacing')
+			const elBlur = document.getElementById('blur')
+			const elBase = document.getElementById('base')
+
+			const handleInput = (e) => {
+				const propName = `--${e.target.name}`
+				let propValue = [e.target.value, e.target.dataset?.sizing].join(
+					''
+				)
+				root.style.setProperty(propName, propValue)
+			}
+
+			elSpacing.addEventListener('input', handleInput)
+			elBlur.addEventListener('input', handleInput)
+			elBase.addEventListener('input', handleInput)
+
+			elSpacing.dispatchEvent(new Event('input'))
+			elBlur.dispatchEvent(new Event('input'))
+			elBase.dispatchEvent(new Event('input'))
+		</script>
 	</body>
 </html>

@@ -88,23 +88,49 @@
 
 			// Array.prototype.filter()
 			// 1. Filter the list of inventors for those who were born in the 1500's
+			const _1_sixteenthCenturyInventors = inventors.filter(
+				(inv) => inv.year >= 1500 && inv.year < 1600
+			)
 
 			// Array.prototype.map()
 			// 2. Give us an array of the inventors first and last names
+			const _2_inventorNames = inventors.map(({ first, last }) =>
+				[first, last].join(' ')
+			)
 
 			// Array.prototype.sort()
 			// 3. Sort the inventors by birthdate, oldest to youngest
+			const _3_inventorsByBirth = [...inventors].sort(
+				(inv1, inv2) => inv1.year - inv2.year
+			)
 
 			// Array.prototype.reduce()
 			// 4. How many years did all the inventors live all together?
+			const _4_totalInventorYearsLived = inventors.reduce(
+				(acc, inv) => acc + (inv.passed - inv.year),
+				0
+			)
 
 			// 5. Sort the inventors by years lived
+			const _5_inventorsByYearsLived = inventors.sort(
+				(inv1, inv2) =>
+					inv1.passed - inv1.year - (inv2.passed - inv2.year)
+			)
 
 			// 6. create a list of Boulevards in Paris that contain 'de' anywhere in the name
 			// https://en.wikipedia.org/wiki/Category:Boulevards_in_Paris
+			const _6_boulevardsContaining_de = Array.from(
+				document.querySelectorAll('.mw-content-ltr ul li a[title]')
+			)
+				.map((el) => el.title)
+				.filter((b) => !!b.match(/de/))
 
 			// 7. sort Exercise
 			// Sort the people alphabetically by last name
+			const _7_peopleByLastName = people.sort(
+				(p1, p2) =>
+					p1.toLowerCase().charAt(0) - p2.toLowerCase().charAt(0)
+			)
 
 			// 8. Reduce Exercise
 			// Sum up the instances of each of these
@@ -124,6 +150,23 @@
 				'car',
 				'truck',
 			]
+			const _8_countInstances = data.reduce(
+				(acc, item) => ({
+					...acc,
+					[item]: acc?.[item] ? acc[item] + 1 : 1,
+				}),
+				{}
+			)
+
+			console.log({
+				_1_sixteenthCenturyInventors,
+				_2_inventorNames,
+				_3_inventorsByBirth,
+				_4_totalInventorYearsLived,
+				_5_inventorsByYearsLived,
+				_7_peopleByLastName,
+				_8_countInstances,
+			})
 		</script>
 	</body>
 </html>

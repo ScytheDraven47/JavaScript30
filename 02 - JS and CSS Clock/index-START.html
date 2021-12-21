@@ -60,9 +60,96 @@
 				background: black;
 				position: absolute;
 				top: 50%;
+				transform-origin: right;
+			}
+
+			.second-hand {
+				height: 3px;
+				left: -2%;
+				width: 52%;
+			}
+
+			.hour-hand {
+				left: 10%;
+				width: 40%;
 			}
 		</style>
 
-		<script></script>
+		<script>
+			const hourHand = document.querySelector(`.hour-hand`)
+			const minHand = document.querySelector(`.min-hand`)
+			const secondHand = document.querySelector(`.second-hand`)
+
+			const getDegrees = (amount, type) => {
+				let percent = 0
+				switch (type) {
+					case 'hour':
+						percent = amount / 12
+						break
+					case 'min':
+					case 'second':
+						percent = amount / 60
+						break
+					default:
+						throw new Error('unit type not implemented')
+				}
+				return 360 * percent
+			}
+
+			const rotateHand = (type, degree) => {
+				let element = null
+				switch (type) {
+					case 'hour':
+						element = hourHand
+						break
+					case 'min':
+						element = minHand
+						break
+					case 'second':
+						element = secondHand
+						break
+					default:
+						throw new Error('unit type not implemented')
+				}
+				element.style.transform = `rotate(${degree}deg)`
+			}
+
+			const getHMS_blocky = () => {
+				const time = new Date()
+				return {
+					hour: time.getHours(),
+					min: time.getMinutes(),
+					second: time.getSeconds(),
+				}
+			}
+			const getHMS = () => {
+				const time = new Date()
+				const hours = time.getHours()
+				const mins = time.getMinutes()
+				const seconds = time.getSeconds()
+				return {
+					hour: hours + mins / 12 + seconds / 60 / 12,
+					min: hours * 60 + mins + seconds / 60,
+					second: hours * 12 * 60 + mins * 60 + seconds,
+				}
+			}
+
+			const renderClock = () => {
+				const hms = getHMS()
+				for (type of ['hour', 'min', 'second']) {
+					rotateHand(type, getDegrees(hms[type], type) + 90) // adjust for initial position
+				}
+			}
+
+			const initClock = () => {
+				renderClock()
+				hourHand.style.transition = 'transform 1s linear'
+				minHand.style.transition = 'transform 1s linear'
+				secondHand.style.transition = 'transform 1s linear'
+				setInterval(renderClock, 1000)
+			}
+
+			initClock()
+		</script>
 	</body>
 </html>

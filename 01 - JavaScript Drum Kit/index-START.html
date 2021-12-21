@@ -55,6 +55,34 @@
 		<audio data-key="75" src="sounds/tom.wav"></audio>
 		<audio data-key="76" src="sounds/tink.wav"></audio>
 
-		<script></script>
+		<script>
+			const playSound = (key) => {
+				key = key.toString()
+				document
+					.querySelector(`.key[data-key='${key}']`)
+					.classList.add('playing')
+
+				document.querySelector(`audio[data-key='${key}']`).play()
+
+				document
+					.querySelector(`.key[data-key='${key}']`)
+					.classList.remove('playing')
+			}
+			const handleClick = (e) => {
+				let key =
+					e.target.dataset?.key ||
+					e.target.closest('[data-key]').dataset.key
+				playSound(key)
+			}
+			const handleKey = (e) => {
+				let key = e.keyCode
+				playSound(key)
+			}
+
+			document.addEventListener('keypress', handleKey)
+			document.querySelectorAll('.key').forEach((elem) => {
+				elem.addEventListener('click', handleClick)
+			})
+		</script>
 	</body>
 </html>

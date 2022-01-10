@@ -7,8 +7,13 @@
 	</head>
 	<body>
 		<form class="search-form">
-			<input type="text" class="search" placeholder="City or State" />
-			<ul class="suggestions">
+			<input
+				type="text"
+				id="search-city"
+				class="search"
+				placeholder="City or State"
+			/>
+			<ul id="search-city-results" class="suggestions">
 				<li>Filter for a city</li>
 				<li>or a state</li>
 			</ul>
@@ -16,6 +21,51 @@
 		<script>
 			const endpoint =
 				'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json'
+			const cities = []
+			const elCitySearchInput = document.getElementById('search-city')
+			const elCitySearchResults = document.getElementById(
+				'search-city-results'
+			)
+
+			fetch(endpoint)
+				.then((resp) => {
+					if (!resp.ok)
+						throw new Error(`${resp.status} ${resp.statusText}`)
+					return resp.json()
+				})
+				.then((json) => cities.push(...json))
+				.catch((err) => console.error(err))
+
+			const findMatches = (regex, cities) =>
+				cities.filter(
+					(c) => c.city.match(regex) || c.state.match(regex)
+				)
+
+			const displayResults = (results, regex) => {
+				elCitySearchResults.innerHTML = results
+					.map((r) => {
+						const name = `${r.city}, ${r.state}`.replace(
+							regex,
+							`<span class='hl'>$&</span>`
+						)
+						return `
+						<li>
+							<span class='name'>${name}</span>
+							<span class='population'>${parseInt(r.population).toLocaleString()}</span>
+						</li>
+					`
+					})
+					.join('')
+			}
+
+			const handleCitySearch = (e) => {
+				const regex = new RegExp(e.target.value, 'gi')
+				const filteredResults = findMatches(regex, cities)
+				displayResults(filteredResults, regex)
+			}
+
+			elCitySearchInput.addEventListener('change', handleCitySearch)
+			elCitySearchInput.addEventListener('keyup', handleCitySearch)
 		</script>
 	</body>
 </html>

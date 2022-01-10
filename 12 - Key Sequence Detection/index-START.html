@@ -3,12 +3,34 @@
 	<head>
 		<meta charset="UTF-8" />
 		<title>Key Detection</title>
-		<script
+		<!-- <script
 			type="text/javascript"
 			src="https://www.cornify.com/js/cornify.js"
-		></script>
+		></script> -->
 	</head>
 	<body>
-		<script></script>
+		<script>
+			const expectedSequence = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65]
+			const actualSequence = []
+
+			const randomInt = (range = 1) =>
+				Math.floor(Math.random() * (range + 1))
+
+			const randomColor = () =>
+				`rgb(${randomInt(255)},${randomInt(255)},${randomInt(255)})`
+
+			window.addEventListener('keyup', (e) => {
+				actualSequence.push(e.keyCode)
+				actualSequence.splice(
+					-expectedSequence.length - 1,
+					actualSequence.length - expectedSequence.length
+				)
+				if (
+					false ||
+					actualSequence.join('') == expectedSequence.join('')
+				)
+					document.body.style.background = randomColor()
+			})
+		</script>
 	</body>
 </html>

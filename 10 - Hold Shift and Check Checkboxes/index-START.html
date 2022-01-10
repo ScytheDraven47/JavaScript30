@@ -94,6 +94,44 @@
 			</div>
 		</div>
 
-		<script></script>
+		<script>
+			let lastChecked = null
+
+			const getId = (target) => {
+				let id = null
+				document.querySelectorAll('.item').forEach((item, index) => {
+					if (item.isEqualNode(target)) id = index
+				})
+				return id
+			}
+
+			const changeInRange = (start, end, checked = true) => {
+				console.log({ start, end })
+				document
+					.querySelectorAll('input[type="checkbox"]')
+					.forEach((checkbox, index) => {
+						if (index > start && index < end)
+							checkbox.checked = checked
+					})
+			}
+
+			const handleCheck = (e) => {
+				const idsToChange = []
+				const id = getId(e.currentTarget.parentNode)
+				if (e.shiftKey)
+					changeInRange(
+						id > lastChecked ? lastChecked : id,
+						id < lastChecked ? lastChecked : id,
+						e.currentTarget.checked
+					)
+				lastChecked = id
+			}
+
+			document
+				.querySelectorAll('input[type="checkbox"]')
+				.forEach((checkbox) => {
+					checkbox.addEventListener('click', handleCheck)
+				})
+		</script>
 	</body>
 </html>

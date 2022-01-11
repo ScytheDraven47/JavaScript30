@@ -7,6 +7,15 @@
 	<body>
 		<script>
 			// start with strings, numbers and booleans
+			let age = 100
+			let age2 = age
+			age = 200
+			console.log(age, age2)
+
+			let name = 'Ben'
+			let name2 = name
+			name = 'Sam'
+			console.log(name, name2)
 
 			// Let's say we have an array
 			const players = ['Wes', 'Sarah', 'Ryan', 'Poppy']
@@ -14,10 +23,13 @@
 			// and we want to make a copy of it.
 
 			// You might think we can just do something like this:
+			const team = players
 
 			// however what happens when we update that array?
+			team[3] = 'Lux'
 
 			// now here is the problem!
+			console.log(players, team)
 
 			// oh no - we have edited the original array too!
 
@@ -26,12 +38,19 @@
 			// So, how do we fix this? We take a copy instead!
 
 			// one way
-
+			const team1 = players.slice()
 			// or create a new array and concat the old one in
-
+			const team2 = [].concat(players)
 			// or use the new ES6 Spread
+			const team3 = [...players]
+			const team4 = Array.from(players)
 
 			// now when we update it, the original one isn't changed
+			team1[0] = 'Ben'
+			team2[0] = 'Sam'
+			team3[0] = 'Bob'
+			team4[0] = 'Dave'
+			console.table([players, team1, team2, team3, team4])
 
 			// The same thing goes for objects, let's say we have a person object
 
@@ -39,11 +58,19 @@
 			const person = {
 				name: 'Wes Bos',
 				age: 80,
+				social: {
+					twitter: '@wesbos',
+					facebook: 'wesbos.developer',
+				},
 			}
 
 			// and think we make a copy:
 
 			// how do we take a copy instead?
+			const dev = { ...person }
+			dev.name = 'Wesley Boss'
+			dev.social.twitter = '@daboss'
+			console.log(person, dev)
 
 			// We will hopefully soon see the object ...spread
 

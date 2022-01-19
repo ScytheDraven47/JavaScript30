@@ -59,6 +59,24 @@
 				'Anywhere But Here',
 				'An Old Dog',
 			]
+
+			const removeArticle = (s) =>
+				['a', 'an', 'the'].includes(s.split` `[0].toLowerCase())
+					? s.split` `.slice(1).join` `
+					: s
+
+			const sortWithoutArticles = (a, b) => {
+				let A = removeArticle(a)
+				let B = removeArticle(b)
+				if (A < B) return -1
+				if (A > B) return 1
+				return 0
+			}
+
+			const sortedBands = bands.sort(sortWithoutArticles)
+			document.getElementById('bands').innerHTML = sortedBands.map(
+				(b) => `<li>${b}</li>`
+			).join``
 		</script>
 	</body>
 </html>

@@ -65,6 +65,25 @@
 			<li data-time="1:56">Video 57</li>
 			<li data-time="4:04">Video 58</li>
 		</ul>
-		<script></script>
+		<script>
+			const totalTime = Array.from(
+				document.querySelectorAll('li[data-time]')
+			).reduce((acc, node) => {
+				const [mins, secs] = node.dataset.time
+					.split(/:/i)
+					.map(parseFloat)
+				acc += secs + mins * 60
+				return acc
+			}, 0)
+
+			const printTime = (s) =>
+				[
+					Math.floor(s / 3600),
+					Math.floor((s % 3600) / 60),
+					s % 60,
+				].join(':')
+
+			console.log(printTime(totalTime))
+		</script>
 	</body>
 </html>

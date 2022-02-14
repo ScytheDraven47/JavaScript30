@@ -39,8 +39,20 @@
 				background: coral;
 			}
 		</style>
+		<script>
+			const divs = document.querySelectorAll('div')
 
-		<button></button>
-		<script></script>
+			function logText(e) {
+				e.stopPropagation()
+				console.log(this.classList.value)
+			}
+
+			divs.forEach((div) =>
+				div.addEventListener('click', logText, {
+					capture: false,
+					once: false,
+				})
+			)
+		</script>
 	</body>
 </html>

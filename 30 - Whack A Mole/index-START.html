@@ -16,22 +16,31 @@
 
 		<div class="game">
 			<div class="hole hole1">
-				<div class="mole"></div>
+				<img class="mole" src="mole.svg" />
 			</div>
 			<div class="hole hole2">
-				<div class="mole"></div>
+				<img class="mole" src="mole.svg" />
 			</div>
 			<div class="hole hole3">
-				<div class="mole"></div>
+				<img class="mole" src="mole.svg" />
 			</div>
 			<div class="hole hole4">
-				<div class="mole"></div>
+				<img class="mole" src="mole.svg" />
 			</div>
 			<div class="hole hole5">
-				<div class="mole"></div>
+				<img class="mole" src="mole.svg" />
 			</div>
 			<div class="hole hole6">
-				<div class="mole"></div>
+				<img class="mole" src="mole.svg" />
+			</div>
+			<div class="hole hole7">
+				<img class="mole" src="mole.svg" />
+			</div>
+			<div class="hole hole8">
+				<img class="mole" src="mole.svg" />
+			</div>
+			<div class="hole hole9">
+				<img class="mole" src="mole.svg" />
 			</div>
 		</div>
 
@@ -39,6 +48,47 @@
 			const holes = document.querySelectorAll('.hole')
 			const scoreBoard = document.querySelector('.score')
 			const moles = document.querySelectorAll('.mole')
+			let lastHole
+			let timeUp = false
+			let score = 0
+
+			const randomInt = (max, min = 0) =>
+				Math.floor(Math.random() * (max - min)) + min
+
+			const getRandomHole = () => {
+				const hole = holes[randomInt(holes.length)]
+				if (hole === lastHole) return getRandomHole()
+				lastHole = hole
+				return hole
+			}
+
+			function peep() {
+				const time = randomInt(1000, 200)
+				const hole = getRandomHole()
+				hole.classList.add('up')
+				hole.addEventListener('click', bonk, { once: true })
+				setTimeout(() => {
+					hole.classList.remove('up')
+					if (!timeUp) peep()
+				}, time)
+			}
+
+			function startGame() {
+				scoreBoard.textContent = 0
+				timeUp = false
+				score = 0
+				peep()
+				setTimeout(() => (timeUp = true), 10000)
+			}
+
+			function bonk(e) {
+				if (!e.isTrusted) return
+				score++
+				this.parentNode.classList.remove('up')
+				scoreBoard.textContent = score
+			}
+
+			// moles.forEach((mole) => mole.addEventListener('click', bonk))
 		</script>
 	</body>
 </html>
